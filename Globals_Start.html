@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Exercici Ajax Rest API</title>
+    <style>
+        #ajaxContent {
+            padding: 5pt;
+            border: 2px dashed lightgray;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css" />
+
+    <script  src="jquery-3.0.0.js"></script>
+    <script >
+       
+       $("document").ready(function() {   
+           
+           
+
+            //add event listener to the button with jquery
+            $("#idButton").on("click", getData);
+           
+            
+        });
+      
+
+        function getData() {
+            $.ajax({
+                type:'GET',
+                url: '1http://api.icndb.com/jokes/random',
+                success: successFn,
+                error: errorFn                                
+                
+            });
+            
+        }       
+        
+        function successFn(data) {
+            $(document).ajaxStart(function(){
+                console.log("Ajax starting");
+            });
+            $(document).ajaxSend(function(evt, jqXHR, options){
+                console.log("Ajax about to send data...");
+            });
+            $(document).ajaxSuccess(function(evt, jqXHR, options){
+                console.log("Ajax success ok");
+            });
+           
+            $(document).ajaxComplete(function(evt, jqXHR, options){
+                console.log("Ajax completed");
+            });
+            $(document).ajaxStop(function(){
+                console.log("Ajax Stopped or ended.");
+            });
+
+            console.log(data);
+                    $("#ajaxContent").html(data.value.joke);  
+           
+        }
+
+        function errorFn(xhr, status, strErr) {
+            $(document).ajaxError(function(evt, jqXHR, settings, err ){
+                console.log(" Ajax error is-->"+ strErr);
+            });
+            //alert(strErr);
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <h1>Exercici Ajax Rest API</h1>
+    <div id="content">
+        <input type="button" id="idButton" value="send joke">
+        <p id="ajaxContent"></p>
+    </div>
+    <div></div>
+</body>
+
+</html>
